@@ -13,28 +13,31 @@ void fastio() {
     cin.tie(0);
 }
 
-ll arr[1000005];
+ll arr[10005];
 int main() {
     fastio();
-    ll N, M;
-    cin >> N >> M;
+    ll N, K;
+    cin >> N >> K;
+    ll _max = 0;
     for(int i=0; i<N; i++) {
         cin >> arr[i];
+        _max = max(_max, arr[i]);
     }
-    ll l = 0, r = 1000000000;
-    while(l+1<r) {
+    ll l = 1;
+    ll r = _max;
+    ll ans = 0;
+    while(l<=r) {
+        ll mid = (l+r)>>1;
         ll s = 0;
-        ll m = (l+r)>>1;
         for(int i=0; i<N; i++) {
-            if(arr[i] > m) {
-                s += arr[i]-m;
-            }
+            s += arr[i]/mid;
         }
-        if(s >= M) {
-            l = m;
+        if(s>=K) {
+            l = mid+1;
+            ans = max(ans, mid);
         } else {
-            r = m;
+            r = mid-1;
         }
     }
-    cout << l;
+    cout << ans;
 }
